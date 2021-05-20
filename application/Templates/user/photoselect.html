@@ -1,0 +1,25 @@
+{% extends "/user/layout_footerfixed.html" %}
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div style="height:20px"></div>
+    <div class="content-section">
+
+        <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+              Change username and password
+            </a>
+        </p>
+            
+    </div>
+    <br>
+    <br>
+{% endblock content %}

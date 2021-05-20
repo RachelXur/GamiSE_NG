@@ -1,0 +1,63 @@
+{% extends "/user/layout_footerfixed.html" %}
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div style="height:20px"></div>
+    <div class="content-section">
+        <h2> Instruction for Normal Users</h2>
+        <p>
+            GamiSE is a website that aims to enhance user's awareness of defending against social engineering attacks. All the user functions aim to alert users about existing social engineering attacks, teach users knowledge about social engineering attacks.
+        </p>
+        <h3> Users' Functions </h3>
+        <p> Users can use this platform for:<br>
+            1.	Sharing experience that related to social engineering.<br>
+            2.  "Like" or "Not Interested" other user's posts.<br>
+            3.	Reporting a social engineering attack (phishing email attack).<br>
+            4.  Contact us if the user has any problem.<br>
+            5.  Check Terms and Policy.<br>
+            6.  Check Instruction.<br>
+            7. Give feedback to the developer.<br>
+        </p>
+        <h3> Sharing Experience </h3>
+        <p> 
+            1.  If users face any social engineering attack recently, and want to share it with other users. Users can share it on the website. Other users can have responded to this post, such as "Like" or "Dislike".<br>
+        </p>
+        <h3> Report an Attack </h3>
+        <p> 
+            1.  Users can only report phishing email attacks during the evaluation.<br>
+            2.  GamiSE will have a phishing simulation every week. If users think the email they received is a phishing email, especially if this phishing email is from GamiSE, users can report it on GamiSE.<br>
+            3.  Users should report the attack on the GamiSE, and forward this email to GamiSE (Forward the email should use the user's mail server, it cannot forward on GamiSE).<br>
+            4.  Users cannot check, edit, or delete their reports.<br>
+            <strong> 5.  Each user can only submit no more than 3 reports every day. </strong><br>
+            6. IT department has the right to delete users' reports. The reasons will be:<br>
+            &nbsp;&nbsp;6.1  The report phishing attack is not the phishing attack sent by GamiSE.<br>
+            &nbsp;&nbsp;6.2  User submit the same report with no difference.<br>
+            &nbsp;&nbsp;6.3  Users can submit the report in 7 days after GamiSE launched the phishing simulation. If the IT department submits a solution based on this simulation, all the reports that submit later than the solution will be deleted by the IT department.<br>
+        </p>
+        <h3> Sharing Experience </h3>
+        <p> 
+            1.  If users face any social engineering attack recently, and want to share it with other users. Users can share it on the website. Other users can have responded to this post, such as "Like" or "Dislike".<br>
+        </p>
+        <h2> Instruction for IT Department</h2>
+        <p> IT Department should:<br>
+            1.	Finish checking the users' reports every day no later than 5 pm after each GamiSE phishing simulation.<br>
+            2.  Submit the defending solution on the last day of each week's simulation at around 5 pm. (During the evaluation, the IT department would not have access to each user's mail server. Therefore, this solution will be the defending suggestions of the Social Engineering attacks.)<br>
+            3.  IT department has the right to delete users' reports. The reasons will be:<br>
+            &nbsp;&nbsp;3.1  The report phishing attack is not the phishing attack sent by GamiSE.<br>
+            &nbsp;&nbsp;3.2  User submit the same report with no difference.<br>
+            &nbsp;&nbsp;3.3  Users can submit the report in 7 days after GamiSE launched the phishing simulation. If the IT department submits a solution based on this simulation, all the reports that submit later than the solution will be deleted by the IT department.<br>
+        </p>
+        <h2> Attention</h2>
+        <p> The Time zone of the website is UTC Time zone</p>
+    </div>
+    <br>
+    <br>
+
+{% endblock content %}
