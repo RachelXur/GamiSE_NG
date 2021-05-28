@@ -100,7 +100,7 @@ def register():
 @login_required
 def homepage():
     today = datetime.now()
-    date = today - timedelta(days=7)
+    date = today - timedelta(days=5)
     reports = Itreport.query.filter(Itreport.report_date >= date).order_by(desc(Itreport.report_date)).all()
     posts = Post.query.order_by(desc(Post.post_date)).paginate(per_page=5)
     return render_template('user/index.html', title='Homepage', reports=reports, posts=posts, date=date)
