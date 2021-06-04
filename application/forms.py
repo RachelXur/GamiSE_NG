@@ -1,18 +1,19 @@
+from typing import Optional
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, RadioField, TextAreaField, IntegerField
 from wtforms.validators import Length, Email, EqualTo, InputRequired, ValidationError, optional
 from flask_wtf.file import FileField, FileAllowed
-from application.model import User
+from application.model import Phishingcampaign, User
 from flask_login import current_user
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[InputRequired(), Email(), Length(min=2, max=200)])
-    password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=60)])
-    confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password'), Length(min=6, max=60)])
+    username = StringField('Username', validators=[InputRequired(), Length(min=2, max=15)])
+    email = StringField('Email', validators=[InputRequired(), Email(), Length(min=2, max=150)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=50)])
+    confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password'), Length(min=6, max=50)])
     position = RadioField('Position', choices=[('Yes', 'Yes'), ('No', 'No')])
-    itusercode = IntegerField('Code')
+    itusercode = StringField('Code')
     interest = SelectField('Interests', choices=[('Sport', 'Sport'), ('Pets', 'Pets'), ('Music', 'Music'), ('Electronic', 'Electronic')])
     qa = RadioField('Qa', choices=[('Yes', 'Yes'), ('No', 'No')])
     qb = RadioField('Qb', choices=[('Facebook', 'Facebook'), ('Twitter', 'Twitter')])
@@ -24,14 +25,16 @@ class RegistrationForm(FlaskForm):
     qh = RadioField('Qh', choices=[('Yes', 'Yes'), ('No', 'No')])
     qi = RadioField('Qi', choices=[('Yes', 'Yes'), ('No', 'No')])
     qj = RadioField('Qj', choices=[('Yes', 'Yes'), ('No', 'No')])
-    qk = RadioField('Qk', validators=[optional()], choices=[('Yes', 'Yes'), ('No', 'No')])
+    qk = RadioField('Qk', choices=[('Yes', 'Yes'), ('No', 'No')])
     terms = RadioField('Terms', choices=[('Yes', 'Yes')])
     submit = SubmitField('Register')
+
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError('That username is taken. Please choose a different username!')
+
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
@@ -53,9 +56,10 @@ class PostForm(FlaskForm):
 
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[InputRequired(), Email()])
+    email = StringField('Email', validators=[InputRequired(), Email(), Length(min=2, max=150)])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
+
 
     def validate_username(self, username):
         if username.data != current_user.username:
@@ -63,44 +67,34 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('That username is taken. Please choose a different one.')
 
+
     def validate_email(self, email):
         if email.data != current_user.email:
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
+
 
 class UpdateAccountPhotoForm(FlaskForm):
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Select')
 
-    def validate_username(self, username):
-        if username.data != current_user.username:
-            user = User.query.filter_by(username=username.data).first()
-            if user:
-                raise ValidationError('That username is taken. Please choose a different one.')
-
-    def validate_email(self, email):
-        if email.data != current_user.email:
-            user = User.query.filter_by(email=email.data).first()
-            if user:
-                raise ValidationError('That email is taken. Please choose a different one.')
-
 
 class RequestPResetForm(FlaskForm):
-    email = StringField('Email', validators=[InputRequired(), Email()])
+    email = StringField('Email', validators=[InputRequired(), Email(), Length(min=2, max=150)])
     submit = SubmitField('Request Token')
 
 
 class ResetPwForm(FlaskForm):
-    password = PasswordField('Password', validators=[InputRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password')])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=50)])
+    confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password'), Length(min=6, max=50)])
     submit = SubmitField('Confirm Password')
     
 
 class ResetPwLoggedForm(FlaskForm):
-    old_password = PasswordField('Old Password', validators=[InputRequired()])
-    new_password = PasswordField('New Password', validators=[InputRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('new_password')])
+    old_password = PasswordField('Old Password', validators=[InputRequired(), Length(min=6, max=50)])
+    new_password = PasswordField('New Password', validators=[InputRequired(), Length(min=6, max=50)])
+    confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('new_password'), Length(min=6, max=50)])
     submit = SubmitField('Confirm Password')
 
 
@@ -136,20 +130,21 @@ class ITCheckForm(FlaskForm):
 
 class DailyNewsForm(FlaskForm):
     receiver = SelectField('Receiver', choices=[('Normal Users', 'Normal Users'), ('IT', 'IT')])
-    title = StringField('Title', validators=[InputRequired()])
+    title = StringField('Title', validators=[InputRequired(), Length(min=2, max=200)])
     link = StringField('Link', validators=[InputRequired()])
-    image_url = StringField('Image URL', validators=[InputRequired()])
+    image_url = StringField('Image URL')
     description = TextAreaField('Desription', validators=[InputRequired()])
     submit = SubmitField('Send')
 
 
 class DailyTipsForm(FlaskForm):
     receiver = SelectField('Receiver', choices=[('Normal Users', 'Normal Users'), ('IT', 'IT')])
-    title = StringField('Title', validators=[InputRequired()])
+    title = StringField('Title', validators=[InputRequired(), Length(min=2, max=200)])
     link = StringField('Link', validators=[InputRequired()])
     image_url = StringField('Image URL')
     content = TextAreaField('Content', validators=[InputRequired()])
     submit = SubmitField('Send')
+
 
 class SimulationNoteForm(FlaskForm):
     receiver = SelectField('Receiver', choices=[('IT', 'IT')])
@@ -157,19 +152,29 @@ class SimulationNoteForm(FlaskForm):
     sender = TextAreaField('Sender', validators=[InputRequired()])
     submit = SubmitField('Send')
 
+
 class SimulationForm(FlaskForm):
     campaign_name = StringField('Campaign Name', validators=[InputRequired(), Length(min=2, max=100)])
     phishing_type = SelectField('Phishing Type', choices=[('Tablet', 'Tablet'), ('MFA PWD', 'MFA PWD'), ('Google News', 'Google News'), 
                                                             ('Discount', 'Discount'), ('Change PWD', 'Change PWD'), ('Trending News', 'Trending News')])
     submit = SubmitField('Send')
 
+
+    def validate_campaign(self, campaign_name):
+        campaign_name = Phishingcampaign.query.filter_by(campaign_name=campaign_name.data).first()
+        if campaign_name:
+            raise ValidationError('That campaign name is taken. Please choose a different username!')
+
+
 class CheckuserForm(FlaskForm):
-    email = StringField('Email', validators=[InputRequired(), Email()])
+    email = StringField('Email', validators=[InputRequired(), Email(), Length(min=2, max=200)])
     submit = SubmitField('Submit')
+
 
 class PhotouploadForm(FlaskForm):
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Submit')
+
 
 class PhotoselectForm(FlaskForm):
     picture = FileField('Select Photo', validators=[FileAllowed(['jpg', 'png'])])
