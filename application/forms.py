@@ -159,11 +159,10 @@ class SimulationForm(FlaskForm):
                                                             ('Discount', 'Discount'), ('Change PWD', 'Change PWD'), ('Trending News', 'Trending News')])
     submit = SubmitField('Send')
 
-
-    def validate_campaign(self, campaign_name):
+    def validate_campaign_name(self, campaign_name):
         campaign_name = Phishingcampaign.query.filter_by(campaign_name=campaign_name.data).first()
         if campaign_name:
-            raise ValidationError('That campaign name is taken. Please choose a different username!')
+            raise ValidationError('That campaign name is taken. Please choose a different name!')
 
 
 class CheckuserForm(FlaskForm):
