@@ -22,7 +22,7 @@
                                 
                                 <!--show all the reports -->
                                     {% for report in reports %}
-                                        {% if report.read == False %}
+                                        {% if report.read == True %}
                                             <section id="content1" >
                                                 <div class="question-type2033" >
                                                     <div class="row">
@@ -34,7 +34,7 @@
                                                         </div>
                                                         <div class="col-md-9">
                                                             <div class="right-description893">
-                                                                <a class="mr-2" href="{{url_for('checkuserallreport', pid=report.user_id)}}">{{ report.user.username }}</a>
+                                                                <a class="mr-2" href="#">{{ report.user.username }}</a>
                                                                 <small class="text-muted">{{report.report_date.strftime('%Y-%m-%d')}}</small>
                                                                 <div id="que-hedder2983">
                                                                     <a href="{{url_for('check_report', pid=report.report_id)}}"><h3><strong>{{ report.subject }}</strong></h3></a>
